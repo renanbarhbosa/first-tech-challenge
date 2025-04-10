@@ -1,21 +1,21 @@
 import pandas as pd
+import matplotlib.pyplot as plt  # Corrigido
+import seaborn as sbn
+import numpy as np
 
-# Carregar o arquivo CSV
-table_wines_2024_raw = pd.read_csv(r'C:\intellij-projects\postech\first-tech-challenge\wine_data\table_wine\dados_2024.csv')
+df = pd.read_csv(r'C:\intellij-projects\postech\first-tech-challenge\wine_data\table_wine\dados_2024.csv',
+                 encoding="UTF-8", thousands=".", decimal=",")
 
-# Exibir informações iniciais
-print("Head de exportação 2024")
-print(table_wines_2024_raw.head())
-print("Final do head de exportação 2024\n")
+df["Valor (US$)"] = pd.to_numeric(df["Valor (US$)"], errors="coerce")
 
-print("Início info")
-table_wines_2024_raw.info()
-print("Fim info\n")
+df = df.dropna(subset=["Valor (US$)"])
 
-table_wines_2024_raw["Valor (US$)"] = table_wines_2024_raw["Valor (US$)"].str.replace(r'[^\d.-]', '', regex=True)
-table_wines_2024_raw["Valor (US$)"] = pd.to_numeric(table_wines_2024_raw["Valor (US$)"], errors='coerce')
-table_wines_2024_raw.dropna(subset=["Valor (US$)"], inplace=True)
-media_valor = table_wines_2024_raw["Valor (US$)"].mean()
-print(f"Média do Valor (US$): {media_valor}")
+media = df["Valor (US$)"].mean(skipna=True)
 
-print(table_wines_2024_raw)
+pd.options.display.float_format = "{:.2f}".format
+
+print(f"Média do valor em (US$) é: {media}\n")
+print(df)
+
+df.plot(x="Países", y="Valor (US$)", figsize=(12,12), kind="bar")
+plt.show()  # Exibir gráfico corretamente
