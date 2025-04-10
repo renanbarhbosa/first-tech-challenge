@@ -1,3 +1,5 @@
+#TODO - AJUSTAR A ROTAÇÃO COM OS PAÍSES E EVITAR A SOBREPOSIÇÃO
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
