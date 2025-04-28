@@ -6,7 +6,7 @@ dfs = []
 for year in range(2009, 2025):
     try:
         df_year = pd.read_csv(
-            f'C:\\intellij-projects\\postech\\first-tech-challenge\\wine_exportage_data\\table_wine_exportage_data\\dados_{year}.csv',
+            f'C:\\intellij-projects\\postech\\first-tech-challenge\\wine_exportage_data\\table_wine\\dados_{year}.csv',
             encoding="UTF-8", thousands=".", decimal=","
         )
 
