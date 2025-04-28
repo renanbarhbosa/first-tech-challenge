@@ -47,44 +47,54 @@ if __name__ == "__main__":
         .unionByName(df_fresh_grapes)
     )
 
-    # Transformação: Converter tipos e limpar dados
+    # Função para tratar e converter dados
     def cast_and_clean(df):
         return (
-            df.withColumn("Quantidade (Kg)", F.col("Quantidade (Kg)").cast(DoubleType()))
-            .withColumn("Valor (US$)", F.col("Valor (US$)").cast(DoubleType()))
+            df
+            # Remover pontos (separador de milhar) e converter para DoubleType
+            .withColumn(
+                "Quantidade (Kg)",
+                F.regexp_replace(F.col("Quantidade (Kg)"), "[.]", "").cast(DoubleType())
+            )
+            .withColumn(
+                "Valor (US$)",
+                F.regexp_replace(F.col("Valor (US$)"), "[.]", "").cast(DoubleType())
+            )
+            # Remover linhas inválidas
             .dropna(subset=["Quantidade (Kg)", "Valor (US$)"])
         )
 
-    # Agrupar por país e somar quantidade e valor (APÓS a limpeza)
-    df_consolidado = df_full_export.groupBy("Países").agg(
+    # Aplicar transformação ao DataFrame completo
+    df_full_export_clean = cast_and_clean(df_full_export)
+
+    # Agrupar por país e somar valores
+    df_consolidado = df_full_export_clean.groupBy("Países").agg(
         F.sum("Quantidade (Kg)").alias("Quantidade Total (Kg)"),
         F.sum("Valor (US$)").alias("Valor Total (US$)")
     )
 
-    # Ordenar por valor total em ordem decrescente e pegar top n países
+    # Ordenar por valor total e selecionar top 10
     df_top_countries = df_consolidado.orderBy(F.desc("Valor Total (US$)")).limit(10)
 
-    # Mostrar dados consolidados
-    df_top_countries.show(10, truncate=False)  # Mostrar todos os n registros sem truncar
+    # Verificar dados (DEBUG)
+    print("=== Dados Consolidados ===")
+    df_top_countries.show(10, truncate=False)
 
-    # Converter para Pandas para plotagem
+    # Converter para Pandas e plotar
     df_top_countries_ready_to_plot = df_top_countries.toPandas()
 
-    # Plotar gráfico com dados consolidados
     plt.figure(figsize=(18, 8))
     sns.barplot(
         data=df_top_countries_ready_to_plot,
         x='Países',
         y='Valor Total (US$)',
-        color='blue',
-        label='Valor Total (US$)'
+        color='blue'
     )
 
-    # Adicionar rótulos e formatação
     plt.title('Top Países por Valor Total Exportado (US$)', fontsize=14)
     plt.xlabel('Países', fontsize=12)
     plt.ylabel('Valor Total (US$)', fontsize=12)
-    plt.xticks(rotation=45, ha='right')  # Rotacionar x graus para melhor legibilidade
+    plt.xticks(rotation=45, ha='right')
     plt.grid(axis='y', linestyle='--', alpha=0.7)
 
     # Adicionar valores nas barras
@@ -101,4 +111,3 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
-
