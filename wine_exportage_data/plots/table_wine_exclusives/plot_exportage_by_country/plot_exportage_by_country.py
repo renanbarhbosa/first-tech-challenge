@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv(r'/wine_exportage_data/table_wine/dados_2024.csv',
+df = pd.read_csv(r'/wine_exportage_data/files/table_wine/dados_2024.csv',
                  encoding="UTF-8", thousands=".", decimal=",")
 
 df["Valor (US$)"] = pd.to_numeric(df["Valor (US$)"], errors="coerce")
