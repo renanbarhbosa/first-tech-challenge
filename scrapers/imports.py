@@ -7,7 +7,7 @@ import time
 import os
 
 chrome_driver_path = r'C:\intellij-projects\postech\first-tech-challenge\chrome_driver\chromedriver-win64\chromedriver.exe'
-output_dir = r'C:\intellij-projects\postech\first-tech-challenge\wine_import_data\grape_juice'
+output_dir = r'/wine_import_data/files/grape_juice'
 
 os.makedirs(output_dir, exist_ok=True)
 service = Service(executable_path=chrome_driver_path)

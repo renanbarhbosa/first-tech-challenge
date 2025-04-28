@@ -46,3 +46,5 @@ plt.ylabel('Valor (US$)')
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+
