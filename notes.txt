@@ -1,0 +1,16 @@
+Links úteis:
+
+https://www.embrapa.br/documents/1355026/61396182/Boletim+Uva+-+Exportacoes+Dezembro+2022/fbe245cd-3d6a-e176-6738-5862218c83d3
+
+Base para cruzar dados:
+https://comexstat.mdic.gov.br/pt/geral
+
+Dados acima possuem os filtros:
+
+2009-2025
+janeiro-dezembro
+Países(Reino Unido, EUA, Japão, Noruega, Alemanha, Argentina, Paraguai, Espanha, Romênia), UF do produto (RS),
+CUGI Grupo(Produtos(uvas)), Via (aérea, marítima, rodoviária)
+
+Valores (US$, quilograma líquido)
+
