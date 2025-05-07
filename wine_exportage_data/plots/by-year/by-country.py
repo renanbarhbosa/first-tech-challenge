@@ -132,7 +132,7 @@ if __name__ == "__main__":
     plt.xlabel('Ano', fontsize=12)
     plt.ylabel('Valor Total (US$)', fontsize=12)
     formatar_eixos(ax, 'valor')
-    plt.savefig("paisesbaixos_analise/evolucao_valor_paisesbaixos.png", dpi=300, bbox_inches='tight')
+    #plt.savefig("paisesbaixos_analise/evolucao_valor_paisesbaixos.png", dpi=300, bbox_inches='tight')
     plt.close()
 
     # Gráfico de Evolução da Quantidade
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     plt.xlabel('Ano', fontsize=12)
     plt.ylabel('Quantidade Total (Kg)', fontsize=12)
     formatar_eixos(ax, 'quantidade')
-    plt.savefig("paisesbaixos_analise/evolucao_quantidade_paisesbaixos.png", dpi=300, bbox_inches='tight')
+    #plt.savefig("paisesbaixos_analise/evolucao_quantidade_paisesbaixos.png", dpi=300, bbox_inches='tight')
     plt.close()
 
     spark.stop()

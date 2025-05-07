@@ -123,7 +123,7 @@ if __name__ == "__main__":
     plt.xlabel('Ano', fontsize=12)
     plt.ylabel('Valor Total (US$)', fontsize=12)
     formatar_eixos(ax, 'valor')
-    plt.savefig("chile_import_analise/evolucao_valor_import_chile.png", dpi=300, bbox_inches='tight')  # Alterado
+    #plt.savefig("chile_import_analise/evolucao_valor_import_chile.png", dpi=300, bbox_inches='tight')  # Alterado
     plt.close()
 
     # Gráfico de Evolução da Quantidade
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     plt.xlabel('Ano', fontsize=12)
     plt.ylabel('Quantidade Total (Kg)', fontsize=12)
     formatar_eixos(ax, 'quantidade')
-    plt.savefig("chile_import_analise/evolucao_quantidade_import_chile.png", dpi=300, bbox_inches='tight')  # Alterado
+    #plt.savefig("chile_import_analise/evolucao_quantidade_import_chile.png", dpi=300, bbox_inches='tight')  # Alterado
     plt.close()
 
     spark.stop()

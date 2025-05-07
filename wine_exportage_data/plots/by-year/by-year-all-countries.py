@@ -117,7 +117,7 @@ if __name__ == "__main__":
         plt.xlim(0, top_valor['Valor Total (US$)'].max() * 1.2)
         ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: formatar_valor(x)))
 
-        plt.savefig(f"valor_anual/{year}_valor.png", dpi=300, bbox_inches='tight')
+        #plt.savefig(f"valor_anual/{year}_valor.png", dpi=300, bbox_inches='tight')
         plt.close()
 
         # Gráfico de Quantidade
@@ -149,7 +149,7 @@ if __name__ == "__main__":
         plt.xlim(0, top_quantidade['Quantidade Total (Kg)'].max() * 1.2)
         ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: formatar_quantidade(x)))
 
-        plt.savefig(f"quantidade_anual/{year}_quantidade.png", dpi=300, bbox_inches='tight')
+        #plt.savefig(f"quantidade_anual/{year}_quantidade.png", dpi=300, bbox_inches='tight')
         plt.close()
 
     spark.stop()

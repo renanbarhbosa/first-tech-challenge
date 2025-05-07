@@ -5,27 +5,25 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# Configuração do schema
-schema_importacao = StructType([
+# Configuração do schema para exportação
+schema_exportacao = StructType([
     StructField("Países", StringType(), True),
     StructField("Quantidade (Kg)", StringType(), True),
     StructField("Valor (US$)", StringType(), True)
 ])
 
-# Configurar caminhos
-caminho_base = "C:/intellij-projects/postech/first-tech-challenge/wine_import_data/files"
-produtos = ["foaming_wine", "fresh_grapes", "grape_juice", "table_wine", "raisins_grapes"]
+# Configurar caminhos para dados de exportação
+caminho_base = "C:/intellij-projects/postech/first-tech-challenge/wine_exportage_data/files"
+produtos = ["foaming_wine", "fresh_grapes", "grape_juice", "table_wine"]
 
-
-def ler_dados_produto(spark, produto):
-    """Carrega dados de um produto específico com extração do ano"""
+def ler_dados_exportacao(spark, produto):
+    """Carrega dados de exportação de um produto específico com extração do ano"""
     return (spark.read.csv(
         f"{caminho_base}/{produto}/*.csv",
-        schema=schema_importacao,
+        schema=schema_exportacao,
         header=True)
             .withColumn("Ano", F.regexp_extract(F.input_file_name(), r"dados_(\d{4})\.csv", 1).cast(IntegerType()))
             )
-
 
 def formatar_eixo_y(valor, _):
     """Formata valores do eixo Y em milhões/bilhões"""
@@ -33,12 +31,10 @@ def formatar_eixo_y(valor, _):
         return f"${valor / 1e9:.1f}B"
     return f"${valor / 1e6:.0f}M"
 
-
 def obter_top_paises(df_pandas, top_n=10):
     """Identifica os países com maior valor acumulado"""
     total_por_pais = df_pandas.groupby('Países', as_index=False)['Valor Total (US$)'].sum()
     return total_por_pais.nlargest(top_n, 'Valor Total (US$)')['Países'].tolist()
-
 
 def configurar_estilo_grafico():
     """Configurações visuais para os gráficos"""
@@ -51,18 +47,17 @@ def configurar_estilo_grafico():
     })
     plt.rcParams['font.family'] = 'DejaVu Sans'
 
-
 if __name__ == "__main__":
-    # Configurar Spark
-    spark = SparkSession.builder.appName("top-10-importadores").getOrCreate()
+    # Configurar Spark para exportação
+    spark = SparkSession.builder.appName("top-10-exportadores").getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
 
-    # Carregar e processar dados
-    df_completo = ler_dados_produto(spark, produtos[0])
+    # Carregar e processar dados de exportação
+    df_completo = ler_dados_exportacao(spark, produtos[0])
     for produto in produtos[1:]:
-        df_completo = df_completo.unionByName(ler_dados_produto(spark, produto))
+        df_completo = df_completo.unionByName(ler_dados_exportacao(spark, produto))
 
-    # Transformação e limpeza
+    # Transformação e limpeza dos dados
     df_limpo = (df_completo
                 .withColumn("Valor (US$)", F.regexp_replace(F.col("Valor (US$)"), "[.]", "").cast(DoubleType()))
                 .withColumn("Quantidade (Kg)", F.regexp_replace(F.col("Quantidade (Kg)"), "[.]", "").cast(DoubleType()))
@@ -82,7 +77,7 @@ if __name__ == "__main__":
     configurar_estilo_grafico()
     palette = sns.color_palette("husl", n_colors=10)
 
-    # Criar gráfico
+    # Criar gráfico de exportação
     plt.figure(dpi=120)
     ax = sns.lineplot(
         data=df_top,
@@ -99,7 +94,7 @@ if __name__ == "__main__":
     )
 
     # Personalização do gráfico
-    ax.set_title('TOP 10 Países - Evolução Anual do Valor Importado (US$)', pad=20)
+    ax.set_title('TOP 10 Países - Evolução Anual do Valor Exportado (US$)', pad=20)
     ax.set_xlabel('Ano', labelpad=15)
     ax.set_ylabel('Valor Total', labelpad=15)
     ax.yaxis.set_major_formatter(formatar_eixo_y)
@@ -121,9 +116,9 @@ if __name__ == "__main__":
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
 
-    # Salvar e mostrar
-    os.makedirs("top10_paises_evolucao", exist_ok=True)
-    #plt.savefig("top10_paises_evolucao/top10_paises_evolucao.png", dpi=300, bbox_inches='tight')
+    # Salvar e mostrar resultados
+    #os.makedirs("resultados_analise", exist_ok=True)
+    #plt.savefig("resultados_analise/top10_paises_exportacao_evolucao.png", dpi=300, bbox_inches='tight')
     plt.show()
 
     spark.stop()
