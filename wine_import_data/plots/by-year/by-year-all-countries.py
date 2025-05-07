@@ -122,8 +122,8 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     # Salvar e mostrar
-    os.makedirs("resultados_analise", exist_ok=True)
-    plt.savefig("resultados_analise/top10_paises_evolucao.png", dpi=300, bbox_inches='tight')
+    os.makedirs("top10_paises_evolucao", exist_ok=True)
+    plt.savefig("top10_paises_evolucao/top10_paises_evolucao.png", dpi=300, bbox_inches='tight')
     plt.show()
 
     spark.stop()

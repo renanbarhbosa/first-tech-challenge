@@ -12,7 +12,7 @@ explicit_schema = StructType([
     StructField("Valor (US$)", StringType(), True)
 ])
 
-base_path = "C:/intellij-projects/postech/first-tech-challenge/wine_import_data/files"
+base_path = "/wine_import_data/files"
 
 def read_product_data(spark, product_name):
     """Lê e processa dados de um produto específico com extração do ano"""
