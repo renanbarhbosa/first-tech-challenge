@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Carregar os dados da planilha "Resultado"
-df = pd.read_excel("C:\\intellij-projects\\postech\\first-tech-challenge\\precos-exportacao-via-rodoviaria\\file\\V_EXPORTACAO_GERAL_2009-01_2024-12_DT20250507.xlsx")
+df = pd.read_excel("C:\\intellij-projects\\postech\\first-tech-challenge\\precos-exportacao-via-rodoviaria\\argentina\\file\\V_EXPORTACAO_GERAL_2009-01_2024-12_DT20250507.xlsx")
 
 # Filtrar dados relevantes
 filtro = (
